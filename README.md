@@ -1,7 +1,5 @@
 # Ágora Digital - Backend API (Laravel)
 
-Este repositorio contiene la API RESTful que sirve como backend para **Ágora Digital**, una aplicación de gestión integral para clínicas de psicología. 
-
 Este proyecto ha sido desarrollado como Proyecto Final del **Ciclo Formativo de Grado Superior en Desarrollo de Aplicaciones Web (DAW)**.
 
 ## Descripción del Proyecto
