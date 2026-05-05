@@ -1,12 +1,15 @@
-import { useState } from 'react';
+import { useState,useContext } from 'react';
 import logo from '../assets/logo.png';
 import { loginUsuario } from '../services/loginService.js';
+import { LoginContext } from '../context/LoginContext.jsx';
 
 export default function Login() {
 
     const [email, setEmail] = useState('');         //variables en las que guardaremos los datos del formulario del login
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
+
+    const { guardarLogin } = useContext(LoginContext); //exportamos la funcion guardarLogin para guardar los datos en useState y localStorage
 
     const formularioLogin = async (e) => {
         e.preventDefault();
@@ -17,10 +20,11 @@ export default function Login() {
 
             const datosDelServidor = await loginUsuario(email, password);
 
-            console.log("¡Éxito! Laravel nos ha devuelto:", datosDelServidor);
+            console.log("¡Éxito! Los datos enviados son:", datosDelServidor);
 
-            // Aquí se guardara el token
-            alert("¡Login correcto!");
+            guardarLogin(datosDelServidor);
+
+            alert("¡Sesión guardada con éxito! Ya estás dentro del sistema.");
 
         } catch (err) {
             // Si falla, guardamos el mensaje de error para mostrarlo en pantalla
