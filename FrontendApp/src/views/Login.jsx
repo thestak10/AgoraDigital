@@ -1,13 +1,31 @@
 import { useState } from 'react';
 import logo from '../assets/logo.png';
+import { loginUsuario } from '../services/loginService.js';
 
 export default function Login() {
+
     const [email, setEmail] = useState('');         //variables en las que guardaremos los datos del formulario del login
     const [password, setPassword] = useState('');
+    const [error, setError] = useState('');
 
-    const formularioLogin = (e) => {
+    const formularioLogin = async (e) => {
         e.preventDefault();
-        console.log("Intentando iniciar sesión con:", email, password); //comprobacion del envio de datos
+        setError('');
+
+        try {
+            // Llamamos al loginService pasando el email y la contraseña del login
+
+            const datosDelServidor = await loginUsuario(email, password);
+
+            console.log("¡Éxito! Laravel nos ha devuelto:", datosDelServidor);
+
+            // Aquí se guardara el token
+            alert("¡Login correcto!");
+
+        } catch (err) {
+            // Si falla, guardamos el mensaje de error para mostrarlo en pantalla
+            setError(err.message);
+        }
     };
 
     return (
@@ -43,6 +61,11 @@ export default function Login() {
                         Acceso exclusivo para pacientes y profesionales.
                     </p>
 
+                    {error && (
+                        <div className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-6 rounded-md" role="alert">
+                            <p>{error}</p>
+                        </div>
+                    )}
                     <form onSubmit={formularioLogin} className="space-y-6">
 
                         <div>
