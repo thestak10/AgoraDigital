@@ -3,6 +3,9 @@ import logo from '../assets/logo.png';
 import { loginUsuario } from '../services/loginService.js';
 import { LoginContext } from '../context/LoginContext.jsx';
 
+import { useNavigate } from 'react-router-dom';
+
+
 export default function Login() {
 
     const [email, setEmail] = useState('');         //variables en las que guardaremos los datos del formulario del login
@@ -11,6 +14,7 @@ export default function Login() {
 
     const { guardarLogin } = useContext(LoginContext); //exportamos la funcion guardarLogin para guardar los datos en useState y localStorage
 
+    const navigate = useNavigate();
     const formularioLogin = async (e) => {
         e.preventDefault();
         setError('');
@@ -24,7 +28,7 @@ export default function Login() {
 
             guardarLogin(datosDelServidor);
 
-            alert("¡Sesión guardada con éxito! Ya estás dentro del sistema.");
+            navigate('/dashboard'); //navegamos a la nueva pantalla
 
         } catch (err) {
             // Si falla, guardamos el mensaje de error para mostrarlo en pantalla
