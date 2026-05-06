@@ -4,6 +4,7 @@ import Dashboard from './views/Dashboard';
 import RutaProtegida from "./components/RutaProtegida.jsx";
 import PanelPaciente from "./views/PanelPaciente.jsx";
 import PanelProfesional from "./views/PanelProfesional.jsx";
+import PanelAdministrador from "./views/PanelAdministrador.jsx";
 
 function App() {
     return (
@@ -49,7 +50,7 @@ function App() {
                     path="/panel-admin"
                     element={
                         <RutaProtegida rolesPermitidos={[1]}>
-                            {/*<PanelAdmin />*/}
+                            <PanelAdministrador />
                         </RutaProtegida>
                     }
                 />
