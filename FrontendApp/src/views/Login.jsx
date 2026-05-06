@@ -23,10 +23,20 @@ export default function Login() {
             // Llamamos al loginService pasando el email y la contraseña del login
 
             const datosDelServidor = await loginUsuario(email, password);
-
-            console.log("¡Éxito! Los datos enviados son:", datosDelServidor);
+            const rolDelUsuario = datosDelServidor.user.rol;
 
             guardarLogin(datosDelServidor);
+
+            if (rolDelUsuario === 1) {
+                navigate('/panel-admin');
+            } else if (rolDelUsuario === 2) {
+                navigate('/panel-profesional');
+            } else if (rolDelUsuario === 3) {
+                navigate('/panel-paciente');
+            } else {
+
+                setError('Rol de usuario no encontrado');
+            }
 
             navigate('/dashboard'); //navegamos a la nueva pantalla
 

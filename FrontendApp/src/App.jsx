@@ -22,6 +22,36 @@ function App() {
                             </RutaProtegida>
                 }/>
 
+                {/* ruta para paciente rol 3 */}
+                <Route
+                    path="/panel-paciente"
+                    element={
+                        <RutaProtegida rolesPermitidos={[3]}>
+                            {/* <PanelPaciente />*/}
+                        </RutaProtegida>
+                    }
+                />
+
+                {/* ruta para profesionales rol 2*/}
+                <Route
+                    path="/panel-profesional"
+                    element={
+                        <RutaProtegida rolesPermitidos={[2]}>
+                            {/*<PanelProfesional />*/}
+                        </RutaProtegida>
+                    }
+                />
+
+                {/* rutas para administradores rol 1 */}
+                <Route
+                    path="/panel-admin"
+                    element={
+                        <RutaProtegida rolesPermitidos={[1]}>
+                            {/*<PanelAdmin />*/}
+                        </RutaProtegida>
+                    }
+                />
+
             </Routes>
         </BrowserRouter>
     );
