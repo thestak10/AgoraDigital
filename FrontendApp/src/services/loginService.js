@@ -14,10 +14,28 @@ export const loginUsuario = async (email, password) => {
         return respuesta.data;
 
     } catch (error) {
-        
+
         if (error.response && error.response.data) {
             throw new Error(error.response.data.message || 'Error al iniciar sesión', { cause: error });
         }
         throw new Error('Error de conexión con el servidor', { cause: error });
+    }
+};
+
+
+export const logoutUsuario = async (token) => {
+
+    try {
+        const respuesta = await axios.post(`${API_URL}/logout`, {}, {
+
+            headers: {
+                Authorization: `Bearer ${token}`        //le pasamos el token en la cabecera
+            }
+        });
+
+        return respuesta.data;
+
+    } catch (error) {
+        console.error("Error al cerrar sesión", error);
     }
 };

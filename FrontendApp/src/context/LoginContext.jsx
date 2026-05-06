@@ -13,6 +13,8 @@ export const LoginProvider = ({children}) => {    //componente que inyecta los d
     const [token, setToken] = useState(tokenGuardado);
     const [usuario, setUsuario] = useState(usuarioGuardado);
 
+
+    //funcion que guarda los datos del login
     const guardarLogin = (datosDelServidor) => {
 
         //guardo en localstorage el token y los datos del usuario para asegurar la permanencia aunque se refesque la pagina
@@ -24,8 +26,16 @@ export const LoginProvider = ({children}) => {    //componente que inyecta los d
         setUsuario(datosDelServidor.user);
     };
 
+    //funcion pra elimminar sesion
+    const cerrarSesionContexto = () => {
+        localStorage.removeItem('token');
+        localStorage.removeItem('usuario');
+        setToken(null);
+        setUsuario(null);
+    };
+
     return (
-        <LoginContext.Provider value={{ token, usuario, guardarLogin }}>
+        <LoginContext.Provider value={{ token, usuario, guardarLogin,cerrarSesionContexto }}>
             {children}
         </LoginContext.Provider>
     );
