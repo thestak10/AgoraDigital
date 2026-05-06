@@ -17,13 +17,18 @@ export const LoginProvider = ({children}) => {    //componente que inyecta los d
     //funcion que guarda los datos del login
     const guardarLogin = (datosDelServidor) => {
 
+        const usuarioCompleto = {
+            ...datosDelServidor.user,           //operador spread (visto en clase) id_usuario, email_usuario, rol_usuario
+            perfil: datosDelServidor.perfil_usuario //trae la info del perfil (nombre y apelidos).
+        };
+
         //guardo en localstorage el token y los datos del usuario para asegurar la permanencia aunque se refesque la pagina
         localStorage.setItem('token', datosDelServidor.access_token);
-        localStorage.setItem('usuario', JSON.stringify(datosDelServidor.user));
+        localStorage.setItem('usuario', JSON.stringify(usuarioCompleto));
 
         //guardamos los datos en la memoria del servidor
         setToken(datosDelServidor.access_token);
-        setUsuario(datosDelServidor.user);
+        setUsuario(usuarioCompleto);
     };
 
     //funcion pra elimminar sesion

@@ -23,7 +23,7 @@ export default function Login() {
             // Llamamos al loginService pasando el email y la contraseña del login
 
             const datosDelServidor = await loginUsuario(email, password);
-            const rolDelUsuario = Number(datosDelServidor.user.rol);
+            const rolDelUsuario = Number(datosDelServidor.user.rol_usuario);
 
             guardarLogin(datosDelServidor);
 

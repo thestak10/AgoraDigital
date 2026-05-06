@@ -7,6 +7,7 @@ export default function Navbar() {
     const { usuario, token, cerrarSesionContexto } = useContext(LoginContext);
     const navigate = useNavigate();
 
+    console.log("Nav usuario", usuario);
     const cerrarSesion = async () => {
         try {
 
@@ -27,7 +28,7 @@ export default function Navbar() {
             </div>
 
             <div className="flex items-center gap-4">
-                <span className="text-sm">Hola, {usuario?.nombre}</span>
+                <span className="text-sm">Hola, {usuario?.perfil?.nombre_usuario} {usuario?.perfil?.apellidos_usuario}</span>
 
                 <button
                     onClick={cerrarSesion}
