@@ -23,9 +23,12 @@ export default function Login() {
             // Llamamos al loginService pasando el email y la contraseña del login
 
             const datosDelServidor = await loginUsuario(email, password);
-            const rolDelUsuario = datosDelServidor.user.rol;
+            const rolDelUsuario = Number(datosDelServidor.user.rol);
 
             guardarLogin(datosDelServidor);
+
+            console.log("El usuario completo es:", datosDelServidor.user);
+            console.log("El rol detectado es:", rolDelUsuario);
 
             if (rolDelUsuario === 1) {
                 navigate('/panel-admin');
@@ -38,7 +41,6 @@ export default function Login() {
                 setError('Rol de usuario no encontrado');
             }
 
-            navigate('/dashboard'); //navegamos a la nueva pantalla
 
         } catch (err) {
             // Si falla, guardamos el mensaje de error para mostrarlo en pantalla

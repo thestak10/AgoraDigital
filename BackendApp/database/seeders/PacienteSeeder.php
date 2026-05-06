@@ -25,7 +25,7 @@ class PacienteSeeder extends Seeder
             for ($i = 1; $i <= 3; $i++) {
                 $userPac = User::factory()->create([
                     'email' => "paciente{$contadorPaciente}@psicomalaga.com",
-                    'password' => Hash::make("paciente¨{$contadorPaciente}"),
+                    'password' => Hash::make("paciente{$contadorPaciente}"),
                     'rol_usuario' => 3,
                 ]);
 

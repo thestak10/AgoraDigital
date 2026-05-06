@@ -2,6 +2,8 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Login from "./views/Login.jsx";
 import Dashboard from './views/Dashboard';
 import RutaProtegida from "./components/RutaProtegida.jsx";
+import PanelPaciente from "./views/PanelPaciente.jsx";
+import PanelProfesional from "./views/PanelProfesional.jsx";
 
 function App() {
     return (
@@ -27,7 +29,7 @@ function App() {
                     path="/panel-paciente"
                     element={
                         <RutaProtegida rolesPermitidos={[3]}>
-                            {/* <PanelPaciente />*/}
+                            <PanelPaciente/>
                         </RutaProtegida>
                     }
                 />
@@ -37,7 +39,7 @@ function App() {
                     path="/panel-profesional"
                     element={
                         <RutaProtegida rolesPermitidos={[2]}>
-                            {/*<PanelProfesional />*/}
+                            <PanelProfesional/>
                         </RutaProtegida>
                     }
                 />
