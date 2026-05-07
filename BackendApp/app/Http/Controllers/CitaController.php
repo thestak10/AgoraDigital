@@ -31,6 +31,22 @@ class CitaController extends Controller
 
             return response()->json(Cita::all());
 
+        } elseif ($usuario->rol_usuario == 3) {
+
+            $paciente = Paciente::where('id_usuario', $usuario->id_usuario)->first();
+
+            if (!$paciente) {
+                return response()->json(['message' => 'Perfil de paciente no encontrado', 404]);
+            }
+
+            $citas = Cita::where('id_paciente', $paciente->id_paciente)->get();
+
+            return response()->json([
+                'tipo_usuario' => 'Paciente',
+                'total_citas' => $citas->count(),
+                'datos' => $citas
+            ]);
+
         }else{
 
             return response()->json(['message'=>'No tienes permiso para ver las citas',403]);

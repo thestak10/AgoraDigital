@@ -1,4 +1,4 @@
-export default function ListaHistorial() {
+export default function ListaHistorial() { //mostramos todas las citas pendientes y completadas del paciente
     return (
         <div className="mt-10">
             <h2 className="text-2xl font-bold text-[#172554] mb-6">Próximas Citas</h2>
