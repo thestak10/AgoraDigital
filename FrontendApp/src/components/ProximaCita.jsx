@@ -28,10 +28,12 @@ export default function ProximaCita({ cita }) {
                     <h3 className="text-[#82ca9c] font-bold text-xs uppercase tracking-widest mb-1">
                         Tu Próxima Cita
                     </h3>
-                    <p className="text-xl font-bold text-[#172554]">{cita.titulo}</p>
+                    <p className="text-xl font-bold text-[#172554]">
+                        Sesión {cita.modalidad_cita}
+                    </p>
                     <p className="text-gray-500 text-sm mt-1 flex items-center gap-2">
-                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                        {cita.fecha} a las {cita.hora}
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        {new Date(cita.fecha_hora_cita).toLocaleString()}
                     </p>
                 </div>
             </div>
