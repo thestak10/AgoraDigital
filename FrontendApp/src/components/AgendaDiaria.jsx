@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import { LoginContext } from '../context/LoginContext';
 
@@ -33,6 +33,11 @@ export default function AgendaDiaria() {
         };
 
         obtenerAgenda();
+
+
+        window.addEventListener('actualizar-agenda', obtenerAgenda); //capturamos el evento y se actualiza la agenda
+
+        return () => window.removeEventListener('actualizar-agenda', obtenerAgenda);
     }, [token]);
 
     if (cargando) return <div className="text-sm text-gray-500">Cargando agenda...</div>;

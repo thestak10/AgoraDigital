@@ -2,6 +2,7 @@ import { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import { LoginContext } from '../context/LoginContext';
 import RegistroNuevoPaciente from './RegistroNuevoPaciente';
+import AsignarCita from './AsignarCita';
 
 export default function ListaPacientes() {
 
@@ -10,6 +11,7 @@ export default function ListaPacientes() {
     const [totalPacientes, setTotalPacientes] = useState(0);
     const [cargando, setCargando] = useState(true);
     const [mostrarRegistro, setMostrarRegistro] = useState(false);
+    const [pacienteParaCita, setPacienteParaCita] = useState(null);
 
     useEffect(() => {
         const obtenerPacientes = async () => {
@@ -64,13 +66,12 @@ export default function ListaPacientes() {
                                 </div>
                             </div>
 
-                            {/* botones para eliminar un paciente o dar una cita*/}
                             <div className="flex items-center gap-2">
                                 <button
-                                    onClick={() => console.log('Próximamente: Abrir modal cita para', paciente.id_paciente)}
+                                    onClick={() => setPacienteParaCita(paciente)}
                                     className="bg-[#172554] hover:bg-[#0f172a] text-white text-xs font-bold py-1.5 px-3 rounded-lg transition-colors shadow-sm">
 
-                                    Dar Cita
+                                    Nueva Cita
                                 </button>
                             </div>
                         </div>
@@ -88,6 +89,10 @@ export default function ListaPacientes() {
                     setPacientes([...pacientes, nuevoPaciente]);
                     setTotalPacientes(totalPacientes + 1);
                 }}
+            />
+            <AsignarCita
+                paciente={pacienteParaCita}
+                onClose={() => setPacienteParaCita(null)}
             />
         </div>
     );
