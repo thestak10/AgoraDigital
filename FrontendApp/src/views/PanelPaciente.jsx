@@ -4,15 +4,25 @@ import Navbar from '../components/Navbar';
 import ProximaCita from '../components/ProximaCita';
 import ListaHistorial from '../components/ListaHistorial';
 import axios from "axios";
+import {Navigate} from "react-router-dom";
 
 export default function PanelPaciente() {
 
-    const { token } = useContext(LoginContext);
+    const { token,usuario } = useContext(LoginContext);
     const [citas, setCitas] = useState([]);
     const [cargando, setCargando] = useState(true);
 
     useEffect(() => { //useEffect carga la pagina para que se muestren los datosd e las citas
-        if (!token) return;
+
+        if (!token) {
+            return <Navigate to="/login" />;
+        }
+
+        if (usuario && usuario.rol_usuario === 2) {     //comprobacion para que siendo un admin o proffesional no se pueda acceder al panel-profesional.
+            return <Navigate to="/panel-profesional" />;
+        }else if (usuario && usuario.rol_usuario === 1){
+            return <Navigate to="/panel-admin" />
+        }
 
         const obtenerCitas = async () => {
 

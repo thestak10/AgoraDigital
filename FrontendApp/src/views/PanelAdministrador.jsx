@@ -1,7 +1,20 @@
 import Navbar from '../components/Navbar';
+import {useContext} from "react";
+import {LoginContext} from "../context/LoginContext.jsx";
+import {Navigate} from "react-router-dom";
 
 export default function PanelAdministrador() {
+    const { token, usuario } = useContext(LoginContext);
 
+    if (!token) {
+        return <Navigate to="/login" />;
+    }
+
+    if (usuario && usuario.rol_usuario === 3) {     //comprobacion de seguridad para que siendo un profesional o paciente no se pueda acceder al panel-admin.
+        return <Navigate to="/panel-paciente"/>;
+    }else if (usuario && usuario.rol_usuario === 2){
+        return <Navigate to="/panel-profesional"/>
+    }
 
     return (
         <div className="min-h-screen bg-gray-100">
