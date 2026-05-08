@@ -7,7 +7,8 @@ export default function AgendaDiaria() {
     const [citasHoy, setCitasHoy] = useState([]);
     const [cargando, setCargando] = useState(true);
 
-    useEffect(() => {
+
+    useEffect(() => {   //useEffect carga la pagina para que se muestren los datos de las citas
         if (!token) return;
 
         const obtenerAgenda = async () => {
@@ -25,6 +26,7 @@ export default function AgendaDiaria() {
                 );
 
                 setCitasHoy(citasFiltradas);
+
             } catch (error) {
                 console.error("Error al traer la agenda:", error);
             } finally {
@@ -39,6 +41,27 @@ export default function AgendaDiaria() {
 
         return () => window.removeEventListener('actualizar-agenda', obtenerAgenda);
     }, [token]);
+
+//funcion elimminar cita de la agenda
+    const eliminarCita = async (idCita) => {
+
+        const seguro = window.confirm("¿Estás seguro de que deseas eliminar esta cita? Esta acción no se puede deshacer.");
+
+        if (!seguro) return;
+
+        try {
+
+            await axios.delete(`http://backendapp.test/api/citas/${idCita}`, {
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+
+            setCitasHoy(citasHoy.filter(cita => cita.id_cita !== idCita)); //actualizamos la vista para ver que se elimmina la cita
+
+        } catch (error) {
+            console.error("Error al eliminar la cita:", error);
+            alert("Hubo un problema al intentar eliminar la cita.");
+        }
+    };
 
     if (cargando) return <div className="text-sm text-gray-500">Cargando agenda...</div>;
 
@@ -88,7 +111,7 @@ export default function AgendaDiaria() {
 
 
                                 <button
-                                    onClick={() => console.log('Próximamente: Eliminar cita', cita.id_cita)}
+                                    onClick={() => eliminarCita(cita.id_cita)}
                                     className="p-2 text-red-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
                                     title="Eliminar cita">
 
