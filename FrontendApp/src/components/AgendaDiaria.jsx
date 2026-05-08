@@ -17,15 +17,21 @@ export default function AgendaDiaria() {
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
 
-                //fecha de hoy en formato YYYY-MM-DD
-                const hoy = new Date().toISOString().split('T')[0];
+                const ahora = new Date();   //recojo la fecha y hora actual a la que el profesional entra en su panel
+                const fechaHoy = ahora.toISOString().split('T')[0]; //formateamos la fecha, pasamos la fecha a string separamos con split la fecha y hora convirtiendolo en un array y nos quedamos solo con la fecha.
 
-                // revisar orden en el que se muestran las citas
-                const citasFiltradas = (respuesta.data.datos || []).filter(cita =>
-                    cita.fecha_hora_cita.startsWith(hoy)
-                );
 
-                setCitasHoy(citasFiltradas);
+                const citasProcesadas = (respuesta.data.datos || []).filter(cita => {   //cogemos la lista de citas que envia el bakend y si no devuelve nada usamos un array vacio
+
+                        const esDeHoy = cita.fecha_hora_cita.startsWith(fechaHoy);  //comprobamos que la fechas coincidan
+                        const horaCita = new Date(cita.fecha_hora_cita);
+                        const esFutura = horaCita >= ahora;
+
+                        return esDeHoy && esFutura; //si la cita es mas tarde o a la misma hora que la fecha actual, devolvemos la cita y de esta forma vemos las citas de ese dia
+                    })
+                    .sort((a, b) => new Date(a.fecha_hora_cita) - new Date(b.fecha_hora_cita)); //ordenamos las citas para que la primera sea la mas temprana.
+
+                setCitasHoy(citasProcesadas);
 
             } catch (error) {
                 console.error("Error al traer la agenda:", error);
@@ -45,7 +51,7 @@ export default function AgendaDiaria() {
 //funcion elimminar cita de la agenda
     const eliminarCita = async (idCita) => {
 
-        const seguro = window.confirm("¿Estás seguro de que deseas eliminar esta cita? Esta acción no se puede deshacer.");
+        const seguro = window.confirm("¿Estás seguro de que deseas eliminar esta cita?");
 
         if (!seguro) return;
 

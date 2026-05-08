@@ -12,17 +12,17 @@ export default function PanelPaciente() {
     const [citas, setCitas] = useState([]);
     const [cargando, setCargando] = useState(true);
 
+    if (!token) {
+        return <Navigate to="/login" />;
+    }
+
+    if (usuario && usuario.rol_usuario === 2) {     //comprobacion para que siendo un admin o proffesional no se pueda acceder al panel-profesional.
+        return <Navigate to="/panel-profesional" />;
+    }else if (usuario && usuario.rol_usuario === 1){
+        return <Navigate to="/panel-admin" />;
+    }
+
     useEffect(() => { //useEffect carga la pagina para que se muestren los datosd e las citas
-
-        if (!token) {
-            return <Navigate to="/login" />;
-        }
-
-        if (usuario && usuario.rol_usuario === 2) {     //comprobacion para que siendo un admin o proffesional no se pueda acceder al panel-profesional.
-            return <Navigate to="/panel-profesional" />;
-        }else if (usuario && usuario.rol_usuario === 1){
-            return <Navigate to="/panel-admin" />
-        }
 
         const obtenerCitas = async () => {
 
@@ -46,10 +46,16 @@ export default function PanelPaciente() {
 
     }, [token]); //si el token cambia, se vuelve a ejecutar el useEffect de nuevo (arry de dependencias)
 
-    const proxima = citas.find(c => c.estado_cita === 'Pendiente'); //la primera cita sera la primera que tenga el estado pendiente
+    const ahora = new Date();
 
-    //el historial de citas serán todas las demás
-    const historial = citas.filter(c => c.id_cita !== proxima?.id_cita);
+    const proxima = citas
+        .filter(cita => cita.estado_cita === 'Pendiente' && new Date(cita.fecha_hora_cita) >= ahora)    //comprobamos que el estado de cita sea Pendiente y que su fecha sea igual o mayor a la fecha actual
+        .sort((a, b) => new Date(a.fecha_hora_cita) - new Date(b.fecha_hora_cita))[0];      //ornedamos las citas y recogemos la primera de la lista que mostraremos en el componente de ProximaCita
+
+
+    const historial = citas
+        .filter(cita => cita.id_cita !== proxima?.id_cita)  //filtramos las que no sean citas proximas
+        .sort((a, b) => new Date(b.fecha_hora_cita) - new Date(a.fecha_hora_cita));     //ordenamos por fecha la citas no proximas de forma descendente por eso ponemos b antes que a
 
     return (
         <div className="min-h-screen bg-gray-50 font-sans pb-10">
