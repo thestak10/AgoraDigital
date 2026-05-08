@@ -18,7 +18,7 @@ class CitaController extends Controller
 
             $ids_pacientes = Paciente::where('id_profesional', $id_profesional)->pluck('id_paciente'); //pluck es una funcion que extrae un conjunto de resultados y lo convierte en un array
 
-            $citas = Cita::whereIn('id_paciente', $ids_pacientes)->get(); //Buscamos las citas de los ids obtenidos en ids_paciente
+            $citas = Cita::with('paciente')->whereIn('id_paciente', $ids_pacientes)->get(); //Buscamos las citas de los ids obtenidos en ids_paciente
 
             return response()->json([
                 'tipo_usuario'=> 'Profesional',
