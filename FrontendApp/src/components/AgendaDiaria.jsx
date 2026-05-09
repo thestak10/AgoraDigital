@@ -1,11 +1,15 @@
 import { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import { LoginContext } from '../context/LoginContext';
+import EditarCita from './EditarCita';
+import EliminarCita from './EliminarCita.jsx';
 
 export default function AgendaDiaria() {
     const { token } = useContext(LoginContext);
     const [citasHoy, setCitasHoy] = useState([]);
     const [cargando, setCargando] = useState(true);
+    const [citaEditando, setCitaEditando] = useState(null);
+    const [citaBorrar, setBorrarCita] = useState(null);
 
 
     useEffect(() => {   //useEffect carga la pagina para que se muestren los datos de las citas
@@ -48,26 +52,6 @@ export default function AgendaDiaria() {
         return () => window.removeEventListener('actualizar-agenda', obtenerAgenda);
     }, [token]);
 
-//funcion elimminar cita de la agenda
-    const eliminarCita = async (idCita) => {
-
-        const seguro = window.confirm("¿Estás seguro de que deseas eliminar esta cita?");
-
-        if (!seguro) return;
-
-        try {
-
-            await axios.delete(`http://backendapp.test/api/citas/${idCita}`, {
-                headers: { 'Authorization': `Bearer ${token}` }
-            });
-
-            setCitasHoy(citasHoy.filter(cita => cita.id_cita !== idCita)); //actualizamos la vista para ver que se elimmina la cita
-
-        } catch (error) {
-            console.error("Error al eliminar la cita:", error);
-            alert("Hubo un problema al intentar eliminar la cita.");
-        }
-    };
 
     if (cargando) return <div className="text-sm text-gray-500">Cargando agenda...</div>;
 
@@ -108,7 +92,7 @@ export default function AgendaDiaria() {
                             <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
 
                                 <button
-                                    onClick={() => console.log('Editar cita', cita.id_cita)}
+                                    onClick={() => setCitaEditando(cita)}
                                     className="p-2 text-blue-500 hover:bg-blue-50 rounded-lg transition-colors"
                                     title="Modificar cita">
 
@@ -117,7 +101,7 @@ export default function AgendaDiaria() {
 
 
                                 <button
-                                    onClick={() => eliminarCita(cita.id_cita)}
+                                    onClick={() => setBorrarCita(cita)}
                                     className="p-2 text-red-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
                                     title="Eliminar cita">
 
@@ -133,6 +117,20 @@ export default function AgendaDiaria() {
                     </div>
                 )}
             </div>
+
+            <EditarCita
+                cita={citaEditando}
+                onClose={() => setCitaEditando(null)}
+            />
+
+            <EliminarCita
+                cita={citaBorrar}
+                onClose={() => setBorrarCita(null)}
+                onExito={(idBorrado) => {
+                    setCitasHoy(citasHoy.filter(c => c.id_cita !== idBorrado)); //hacemos que la cita desarezca al instante
+                }}
+            />
+
         </div>
     );
 }
