@@ -4,6 +4,7 @@ import {Navigate} from "react-router-dom";
 import Navbar from '../components/Navbar';
 import ListaPacientes from '../components/ListaPacientes';
 import AgendaDiaria from '../components/AgendaDiaria';
+import AgendaCalendario from "../components/AgendaCalendario.jsx";
 
 export default function PanelProfesional() {
     const { token, usuario } = useContext(LoginContext);
@@ -61,13 +62,7 @@ export default function PanelProfesional() {
 
                     </div>
 
-                    {/* COLUMNA 3: Calendario (Próximamente) */}
-                    <div className="space-y-6">
-                        <h2 className="text-xl font-bold text-[#172554] mb-4">Calendario</h2>
-                        <div className="bg-white p-10 rounded-xl border border-dashed border-gray-300 text-center text-gray-400 h-64 flex items-center justify-center">
-                            En construcción...
-                        </div>
-                    </div>
+                    <AgendaCalendario />
 
                 </div>
             </main>

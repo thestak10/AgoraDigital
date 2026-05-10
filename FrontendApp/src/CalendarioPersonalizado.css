@@ -1,0 +1,41 @@
+/* DISEÑO DEL CALENDARIO MODERNO */
+.react-calendar {
+    width: 100% !important;
+    max-width: 500px;
+    background: white;
+    border: none !important;
+    font-family: inherit !important;
+}
+
+.react-calendar__tile--active {
+    background: #3b82f6 !important;
+    color: white !important;
+    border-radius: 12px;
+    font-weight: bold;
+}
+
+.react-calendar__tile--now {
+    background: #eff6ff !important;
+    color: #3b82f6 !important;
+    border-radius: 12px;
+    font-weight: bold;
+}
+
+.react-calendar__tile:enabled:hover,
+.react-calendar__tile:enabled:focus {
+    background-color: #f3f4f6 !important;
+    border-radius: 12px;
+}
+
+/* Días que tienen citas programadas */
+.dia-con-citas {
+    background-color: #82ca9c !important;
+    color: white !important;
+    font-weight: bold;
+    border-radius: 12px;
+}
+
+.dia-con-citas:enabled:hover,
+.dia-con-citas:enabled:focus {
+    background-color: #6bb986 !important;
+}
