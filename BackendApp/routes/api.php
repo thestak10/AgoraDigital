@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\HistorialClinicoController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PacienteController;
@@ -32,6 +33,11 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::delete('/citas/{id}', [CitaController::class, 'destroy']);
 
     Route::post('/logout', [LoginController::class, 'logout']);
+    
+    //Historiales clinicos
+    Route::get('/historial/{id_paciente}', [HistorialClinicoController::class, 'obtenerHistorialPaciente']);
+
+    Route::post('/historial', [HistorialClinicoController::class, 'guardarHistorial']);
 
 
 });
