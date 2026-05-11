@@ -6,6 +6,8 @@ use App\Models\Cita;
 use App\Models\DetalleFactura;
 use App\Models\Factura;
 use App\Models\Paciente;
+use App\Models\Profesional;
+use Exception;
 use Illuminate\Http\Request;
 
 class FacturaController extends Controller
@@ -92,6 +94,47 @@ class FacturaController extends Controller
             'precio_total' => $precios['total'],
             'citas' => $citasPendientes
         ]);
+    }
+
+    public function listarFacturas(Request $request)
+    {
+
+        try {
+
+            $user = $request->user();
+            $idUsuario = $user->id_usuario ?? $user->id; //recogemos el id del usuario logueado
+
+            $profesional = Profesional::where('id_usuario', $idUsuario)->first(); //buscamos el profesional con ese id
+
+            if (!$profesional) {
+                return response()->json([
+                    'success' => true,
+                    'facturas' => []
+                ]);
+            }
+
+
+            $idDelProfesional = $profesional->id_profesional;
+
+            $facturas = Factura::whereHas('detalles.cita.paciente', function ($query) use ($idDelProfesional) { //nos traemos las facturas d3e los pacientes asignados al profesional logueado
+                $query->where('id_profesional', $idDelProfesional);
+            })
+                ->orderBy('created_at', 'desc')
+                ->get();
+
+            return response()->json([
+                'success' => true,
+                'facturas' => $facturas
+            ]);
+
+        } catch (Exception $e) { // si algo falla en la base de datos, evitamos la pantalla en blanco y lo mandamos a los logs
+
+            return response()->json([
+                'success' => false,
+                'facturas' => [], // Enviamos array vacío para que React no falle
+                'error' => $e->getMessage()
+            ]);
+        }
     }
 
 }

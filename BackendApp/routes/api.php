@@ -44,4 +44,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/facturas/pendientes/{id_paciente}', [FacturaController::class, 'obtenerCitasPendientes']);
 
     Route::post('/facturas', [FacturaController::class, 'guardarFactura']);
+
+    Route::get('/facturas', [FacturaController::class, 'listarFacturas']);
 });

@@ -4,7 +4,8 @@ import {Navigate} from "react-router-dom";
 import Navbar from '../components/Navbar';
 import ListaPacientes from '../components/ListaPacientes';
 import AgendaDiaria from '../components/AgendaDiaria';
-import AgendaCalendario from "../components/AgendaCalendario.jsx";
+import AgendaCalendario from '../components/AgendaCalendario.jsx';
+import ListadoFacturacion from '../components/ListadoFacturacion.jsx';
 
 export default function PanelProfesional() {
     const { token, usuario } = useContext(LoginContext);
@@ -34,33 +35,30 @@ export default function PanelProfesional() {
 
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
 
-                    <div className="space-y-6">
+
                         <div className="space-y-6">
 
                             <AgendaDiaria />
 
                         </div>
-                    </div>
+
 
                     <div className="space-y-8">
 
                         <ListaPacientes />
 
-                        <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
-                            <h3 className="font-bold text-[#172554] text-lg mb-4">Notas Clínicas</h3>
-                            <textarea
-                                className="w-full border border-gray-200 rounded-lg p-3 text-sm focus:outline-none focus:border-[#82ca9c] focus:ring-1 focus:ring-[#82ca9c] transition-colors resize-none h-32"
-                                placeholder="Escribe tus notas clínicas aquí..."
-                            ></textarea>
-                            <button className="mt-4 w-full bg-[#82ca9c] hover:bg-[#6ab385] text-white font-bold py-2 px-4 rounded-lg transition text-sm">
-                                Guardar Nota
-                            </button>
-                        </div>
                     </div>
+
 
                     <AgendaCalendario />
 
                 </div>
+                <div className="col-span-full mt-6">
+                    <ListadoFacturacion />
+                </div>
+
+
+
             </main>
         </div>
     );
