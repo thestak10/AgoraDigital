@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\FacturaController;
 use App\Http\Controllers\HistorialClinicoController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
@@ -39,5 +40,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::post('/historial', [HistorialClinicoController::class, 'guardarHistorial']);
 
+    //Facturas
+    Route::get('/facturas/pendientes/{id_paciente}', [FacturaController::class, 'obtenerCitasPendientes']);
 
+    Route::post('/facturas', [FacturaController::class, 'guardarFactura']);
 });

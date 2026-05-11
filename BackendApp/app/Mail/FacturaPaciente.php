@@ -2,6 +2,7 @@
 
 namespace App\Mail;
 
+use App\Models\Factura;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Attachment;
@@ -13,31 +14,31 @@ class FacturaPaciente extends Mailable
 {
     use Queueable, SerializesModels;
 
-    /**
-     * Create a new message instance.
-     */
-    public function __construct()
+    public $factura;
+    public $pdfContenido;
+    public function __construct(Factura $factura, $pdfContenido)
     {
-        //
+        $this->factura = $factura;
+        $this->pdfContenido = $pdfContenido;
     }
 
     /**
      * Get the message envelope.
      */
-    public function envelope(): Envelope
+    public function envelope(): Envelope    //asunto del correo
     {
         return new Envelope(
-            subject: 'Factura Paciente',
+            subject: 'Tu factura de clinica PsicoMalaga - ' . $this->factura->nombre_paciente_factura,
         );
     }
 
     /**
      * Get the message content definition.
      */
-    public function content(): Content
+    public function content(): Content  //cuerpo del correo
     {
         return new Content(
-            view: 'view.name',
+            view: 'emails.texto_factura',
         );
     }
 
@@ -46,8 +47,9 @@ class FacturaPaciente extends Mailable
      *
      * @return array<int, Attachment>
      */
-    public function attachments(): array
+    public function attachments(): array    //adjuntamos el pdf de la factura del pacientre
     {
-        return [];
+        return [Attachment::fromData(fn () => $this->pdfContenido, 'Factura_PsicoMalaga_' . $this->factura->id_factura . '.pdf')
+            ->withMime('application/pdf'),];
     }
 }

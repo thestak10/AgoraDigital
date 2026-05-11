@@ -5,6 +5,7 @@ import RegistroNuevoPaciente from './RegistroNuevoPaciente';
 import AsignarCita from './AsignarCita';
 import EliminarPaciente from './EliminarPaciente';
 import HistorialClinico from './HistorialClinico.jsx';
+import GenerarFactura from './GenerarFactura.jsx'
 
 export default function ListaPacientes() {
 
@@ -16,6 +17,7 @@ export default function ListaPacientes() {
     const [pacienteParaCita, setPacienteParaCita] = useState(null);
     const [pacienteAEliminar, setPacienteAEliminar] = useState(null);
     const [pacienteHistorial, setPacienteHistorial] = useState(null);
+    const [pacienteParaFacturar, setPacienteParaFacturar] = useState(null);
 
 
     const [pacienteExpandidoId, setPacienteExpandidoId] = useState(null);
@@ -108,10 +110,10 @@ export default function ListaPacientes() {
                                     <button
                                         onClick={(e) => {
                                             e.stopPropagation();
-                                            console.log("Generar factura para:", paciente.nombre_paciente);
+                                            setPacienteParaFacturar(paciente);
                                         }}
-                                        className="flex-1 bg-gray-50 hover:bg-gray-100 text-[#172554] border border-gray-200 text-sm font-bold py-2.5 px-4 rounded-xl flex items-center justify-center gap-2 transition-colors"
-                                    >
+                                        className="flex-1 bg-gray-50 hover:bg-gray-100 text-[#172554] border border-gray-200 text-sm font-bold py-2.5 px-4 rounded-xl flex items-center justify-center gap-2 transition-colors">
+
                                         Generar Factura
                                     </button>
                                     <button
@@ -133,6 +135,7 @@ export default function ListaPacientes() {
                     </p>
                 )}
             </div>
+
             <RegistroNuevoPaciente
                 isOpen={mostrarRegistro}
                 onClose={() => setMostrarRegistro(false)}
@@ -159,6 +162,14 @@ export default function ListaPacientes() {
             <HistorialClinico
                 paciente={pacienteHistorial}
                 onClose={() => setPacienteHistorial(null)}
+            />
+
+            <GenerarFactura
+                paciente={pacienteParaFacturar}
+                onClose={() => setPacienteParaFacturar(null)}
+                onSuccess={() => {
+                    console.log("¡Factura guardada correctamente!");
+                }}
             />
 
         </div>
