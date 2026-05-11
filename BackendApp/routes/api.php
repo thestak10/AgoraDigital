@@ -46,4 +46,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/facturas', [FacturaController::class, 'guardarFactura']);
 
     Route::get('/facturas', [FacturaController::class, 'listarFacturas']);
+
+    Route::get('/facturas/{id_factura}/descargar', [FacturaController::class, 'descargarPDF']);
+
+    Route::post('/facturas/{id_factura}/enviar', [FacturaController::class, 'enviarEmail']);
 });

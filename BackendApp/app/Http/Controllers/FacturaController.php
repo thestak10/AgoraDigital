@@ -9,12 +9,15 @@ use App\Models\Paciente;
 use App\Models\Profesional;
 use Exception;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
+use App\Mail\FacturaPaciente;
+use Illuminate\Support\Facades\Mail;
 
 class FacturaController extends Controller
 {
     private function calcularPrecios($cantidadSesiones)
     {
-        $precioPorSesion = 25.00;
+        $precioPorSesion = 50.00;
         return [
             'precio_sesion' => $precioPorSesion,
             'total' => $cantidadSesiones * $precioPorSesion
@@ -135,6 +138,34 @@ class FacturaController extends Controller
                 'error' => $e->getMessage()
             ]);
         }
+    }
+
+    public function descargarPDF($id_factura)
+    {
+
+        $factura = Factura::with('detalles')->findOrFail($id_factura); //traesmos la factura con los detalles
+
+        $pdf = Pdf::loadView('factura', ['factura' => $factura]);
+
+        return $pdf->download('Factura_PsicoMalaga_' . $factura->id_factura . '.pdf'); //lo enviamos como descarga
+    }
+
+    public function enviarEmail($id_factura)
+    {
+        $factura = Factura::with('detalles')->findOrFail($id_factura);
+
+
+        $pdf = Pdf::loadView('factura', ['factura' => $factura]); //generamos el pdf en la memoria
+        $pdfContenido = $pdf->output();
+
+        $emailDestino = $factura->email_paciente_factura;
+
+        Mail::to($emailDestino)->send(new FacturaPaciente($factura, $pdfContenido)); //enviamos el correo
+
+        return response()->json([
+            'success' => true,
+            'mensaje' => 'Factura enviada por correo al paciente correctamente.'
+        ]);
     }
 
 }

@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext,useState } from 'react';
 import { LoginContext } from '../context/LoginContext';
 import {Navigate} from "react-router-dom";
 import Navbar from '../components/Navbar';
@@ -9,6 +9,7 @@ import ListadoFacturacion from '../components/ListadoFacturacion.jsx';
 
 export default function PanelProfesional() {
     const { token, usuario } = useContext(LoginContext);
+    const [contadorFacturas, setContadorFacturas] = useState(0);
 
     if (!token) {
         return <Navigate to="/login" />;
@@ -19,6 +20,9 @@ export default function PanelProfesional() {
     }else if (usuario && usuario.rol_usuario === 1){
         return <Navigate to="/panel-admin"/>
     }
+    const recargarFacturas = () => {
+        setContadorFacturas(prev => prev + 1);
+    };
 
     return (
         <div className="min-h-screen bg-gray-50 font-sans pb-10">
@@ -45,7 +49,7 @@ export default function PanelProfesional() {
 
                     <div className="space-y-8">
 
-                        <ListaPacientes />
+                        <ListaPacientes onFacturaGuardada={recargarFacturas}/>
 
                     </div>
 
@@ -54,7 +58,7 @@ export default function PanelProfesional() {
 
                 </div>
                 <div className="col-span-full mt-6">
-                    <ListadoFacturacion />
+                    <ListadoFacturacion  key={contadorFacturas}/>
                 </div>
 
 

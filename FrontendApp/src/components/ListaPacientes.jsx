@@ -7,7 +7,7 @@ import EliminarPaciente from './EliminarPaciente';
 import HistorialClinico from './HistorialClinico.jsx';
 import GenerarFactura from './GenerarFactura.jsx'
 
-export default function ListaPacientes() {
+export default function ListaPacientes({ onFacturaGuardada }) {
 
     const { token } = useContext(LoginContext);
     const [pacientes, setPacientes] = useState([]);
@@ -168,7 +168,9 @@ export default function ListaPacientes() {
                 paciente={pacienteParaFacturar}
                 onClose={() => setPacienteParaFacturar(null)}
                 onSuccess={() => {
-                    console.log("¡Factura guardada correctamente!");
+                    if (onFacturaGuardada) {
+                        onFacturaGuardada(); //sumamos +1 en el panel profesional para que se  recarge el componete
+                    }
                 }}
             />
 

@@ -24,6 +24,7 @@ export default function RegistroNuevoPaciente({ isOpen, onClose, onSuccess }) {
             });
 
             onSuccess(respuesta.data.paciente);
+            onClose();
 
         } catch (error) {
             if (error.response && error.response.data.message) {
