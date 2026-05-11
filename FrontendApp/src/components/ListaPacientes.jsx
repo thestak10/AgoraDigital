@@ -4,6 +4,7 @@ import { LoginContext } from '../context/LoginContext';
 import RegistroNuevoPaciente from './RegistroNuevoPaciente';
 import AsignarCita from './AsignarCita';
 import EliminarPaciente from './EliminarPaciente';
+import HistorialClinico from './HistorialClinico.jsx';
 
 export default function ListaPacientes() {
 
@@ -14,6 +15,7 @@ export default function ListaPacientes() {
     const [mostrarRegistro, setMostrarRegistro] = useState(false);
     const [pacienteParaCita, setPacienteParaCita] = useState(null);
     const [pacienteAEliminar, setPacienteAEliminar] = useState(null);
+    const [pacienteHistorial, setPacienteHistorial] = useState(null);
 
 
     const [pacienteExpandidoId, setPacienteExpandidoId] = useState(null);
@@ -115,7 +117,7 @@ export default function ListaPacientes() {
                                     <button
                                         onClick={(e) => {
                                             e.stopPropagation();
-                                            console.log("Ver historial de:", paciente.nombre_paciente);
+                                            setPacienteHistorial(paciente);
                                         }}
                                         className="flex-1 bg-gray-50 hover:bg-gray-100 text-[#172554] border border-gray-200 text-sm font-bold py-2.5 px-4 rounded-xl flex items-center justify-center gap-2 transition-colors"
                                     >
@@ -153,6 +155,10 @@ export default function ListaPacientes() {
                     setPacientes(pacientes.filter(p => p.id_paciente !== id));  //actualizamos la lista de los pacientes
                     window.dispatchEvent(new Event('actualizar-agenda'));   //actualizamos la agenda tambien por si tenia citas el dia en el que se eliminan
                 }}
+            />
+            <HistorialClinico
+                paciente={pacienteHistorial}
+                onClose={() => setPacienteHistorial(null)}
             />
 
         </div>

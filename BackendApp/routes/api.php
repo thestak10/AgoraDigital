@@ -33,7 +33,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::delete('/citas/{id}', [CitaController::class, 'destroy']);
 
     Route::post('/logout', [LoginController::class, 'logout']);
-    
+
     //Historiales clinicos
     Route::get('/historial/{id_paciente}', [HistorialClinicoController::class, 'obtenerHistorialPaciente']);
 
