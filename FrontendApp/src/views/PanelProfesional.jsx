@@ -14,7 +14,6 @@ export default function PanelProfesional() {
     if (!token) {
         return <Navigate to="/login" />;
     }
-
     if (usuario && usuario.rol_usuario === 3) {     //comprobacion para que siendo un admin o paciente no se pueda acceder al panel-profesional.
         return <Navigate to="/panel-paciente"/>;
     }else if (usuario && usuario.rol_usuario === 1){
@@ -36,23 +35,17 @@ export default function PanelProfesional() {
                         Bienvenido/a, {usuario?.perfil?.nombre_usuario || 'Doctor'}. Aquí tienes el resumen de tu consulta.
                     </p>
                 </div>
-
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-
-
                         <div className="space-y-6">
 
                             <AgendaDiaria />
 
                         </div>
-
-
                     <div className="space-y-8">
 
                         <ListaPacientes onFacturaGuardada={recargarFacturas}/>
 
                     </div>
-
 
                     <AgendaCalendario />
 
@@ -60,9 +53,6 @@ export default function PanelProfesional() {
                 <div className="col-span-full mt-6">
                     <ListadoFacturacion  key={contadorFacturas}/>
                 </div>
-
-
-
             </main>
         </div>
     );

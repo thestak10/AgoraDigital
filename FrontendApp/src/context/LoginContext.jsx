@@ -3,7 +3,7 @@ import { createContext, useState } from 'react';
 
 export const LoginContext = createContext(); //creamos el contenedor donde viaja LoginProvider
 
-export const LoginProvider = ({children}) => {    //componente que inyecta los datos del useState(memoria de React) y localstorage (memoria del navegador)
+export const LoginProvider = ({children}) => {    //componente que inyecta los datos del useState (memoria de React) y localstorage (memoria del navegador)
 
     //recogemmos los datos de (localStorage) por si el usuario ya estaba logueado y lo metemos en la memoria de React, asi nos aseguramos que al recargar la pagina el usuario no se deslogue automaticamnete por borrado de memoria la refrescar
     const tokenGuardado = localStorage.getItem('token');

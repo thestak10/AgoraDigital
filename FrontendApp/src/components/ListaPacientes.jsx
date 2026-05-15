@@ -169,7 +169,7 @@ export default function ListaPacientes({ onFacturaGuardada }) {
                 onClose={() => setPacienteParaFacturar(null)}
                 onSuccess={() => {
                     if (onFacturaGuardada) {
-                        onFacturaGuardada(); //sumamos +1 en el panel profesional para que se  recarge el componete
+                        onFacturaGuardada(); //sumamos +1 en el panel profesional para que se recarge el componete
                     }
                 }}
             />
