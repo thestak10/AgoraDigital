@@ -47,7 +47,7 @@ class FacturaPaciente extends Mailable
      *
      * @return array<int, Attachment>
      */
-    public function attachments(): array    //adjuntamos el pdf de la factura del pacientre
+    public function attachments(): array    //nombramos el archivo de la factura  y le indicamos al gestor de correos que es un pdf
     {
         return [Attachment::fromData(fn () => $this->pdfContenido, 'Factura_PsicoMalaga_' . $this->factura->id_factura . '.pdf')
             ->withMime('application/pdf'),];

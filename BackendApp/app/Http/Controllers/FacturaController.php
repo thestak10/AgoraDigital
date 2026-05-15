@@ -145,7 +145,7 @@ class FacturaController extends Controller
 
         $factura = Factura::with('detalles')->findOrFail($id_factura); //traesmos la factura con los detalles
 
-        $pdf = Pdf::loadView('factura', ['factura' => $factura]);
+        $pdf = Pdf::loadView('factura', ['factura' => $factura]); //inyectamos los datos de la factura en nuestra vista factura.blade.php
 
         return $pdf->download('Factura_PsicoMalaga_' . $factura->id_factura . '.pdf'); //lo enviamos como descarga
     }
@@ -155,8 +155,8 @@ class FacturaController extends Controller
         $factura = Factura::with('detalles')->findOrFail($id_factura);
 
 
-        $pdf = Pdf::loadView('factura', ['factura' => $factura]); //generamos el pdf en la memoria
-        $pdfContenido = $pdf->output();
+        $pdf = Pdf::loadView('factura', ['factura' => $factura]);
+        $pdfContenido = $pdf->output(); //guardamos la factura en binario en la memoria del servidor
 
         $emailDestino = $factura->email_paciente_factura;
 

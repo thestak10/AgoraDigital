@@ -40,18 +40,26 @@ export default function Facturacion() {
         try {
             const respuesta = await axios.get(`http://backendapp.test/api/facturas/${id_factura}/descargar`, {
                 headers: { 'Authorization': `Bearer ${token}` },
-                responseType: 'blob' // Súper importante para los PDFs
+                responseType: 'blob' // indicamos en la cabecera que el formato de la respuesta no es un JSON si no binario
             });
 
-            // Truco para descargar archivos
+            // transformamos los datos binarios en un archivo Blob para su manejo con JavaScript.
+            // createObjectURL genera una url temporal en el navegador
             const url = window.URL.createObjectURL(new Blob([respuesta.data]));
+
             const enlace = document.createElement('a');
-            enlace.href = url;
-            enlace.setAttribute('download', `Factura_Agora_${id_factura.toString().padStart(4, '0')}.pdf`);
-            document.body.appendChild(enlace);
-            enlace.click();
-            enlace.parentNode.removeChild(enlace);
+            enlace.href = url; //asignamos la url temporal al elemento <a>
+
+            // con el atributo HTML5 'download' forzamos al navegador a descargar el archivo y le indicamos elnombre que tendrá pdf
+            enlace.setAttribute('download', `Factura_Agora_${id_factura.toString().padStart(4, '0')}.pdf`); // padStart completa con ceros a la izquierda.
+
+            document.body.appendChild(enlace); //añadimos el enlace al html
+
+            enlace.click(); //forzamos el click para que se haga la descarga del archivo
+
+            enlace.parentNode.removeChild(enlace);  //borramos el enlace de descarga y la url que generamos en la memoria de navegador.
             window.URL.revokeObjectURL(url);
+
         } catch (error) {
             console.error("Error al descargar:", error);
             alert("Error al descargar el PDF.");

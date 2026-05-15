@@ -166,8 +166,6 @@ class PacienteController extends Controller
 
         User::where('id_usuario', $id_usuario_del_paciente)->delete(); //Borramos el usuario de la tabla user
 
-        // Nota: Laravel borrará automáticamente sus citas si configuraste las claves foráneas con "onDelete('cascade')", si no, habría que borrarlas a mano aquí.
-
         return response()->json([
             'message' => 'Paciente y cuenta de usuario eliminado correctamente'
         ], 200);
