@@ -74,7 +74,7 @@ export default function Login() {
             <div className="w-full lg:w-1/2 flex flex-col justify-center items-center bg-white px-8 md:px-20">
 
                 <div className="w-full max-w-md">
-                    <img src={logo} alt="Logo Ágora Digital" className="h-32 w-56 mb-10 object-contain" />
+                    <img src={logo} alt="Logo Ágora Digital" className="h-32 w-56 mb-10 object-contain block mx-auto" />
 
                     <h2 className="text-3xl font-bold text-gray-900 mb-2">¡Hola de nuevo!</h2>
                     <p className="text-gray-500 mb-8">

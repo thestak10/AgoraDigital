@@ -25,7 +25,7 @@
                 <h1 style="color: #172554; margin: 0; font-size: 28px;">Factura</h1>
             </td>
             <td width="50%" style="text-align: right;">
-                <div class="logo-texto">CLÍNICA ÁGORA</div>
+                <div class="logo-texto">Psico Málaga</div>
             </td>
         </tr>
     </table>

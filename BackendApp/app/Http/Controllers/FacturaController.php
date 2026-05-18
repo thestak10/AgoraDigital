@@ -143,7 +143,7 @@ class FacturaController extends Controller
     public function descargarPDF($id_factura)
     {
 
-        $factura = Factura::with('detalles')->findOrFail($id_factura); //traesmos la factura con los detalles
+        $factura = Factura::with('detalles')->findOrFail($id_factura); //traemos la factura con los detalles
 
         $pdf = Pdf::loadView('factura', ['factura' => $factura]); //inyectamos los datos de la factura en nuestra vista factura.blade.php
 
@@ -153,7 +153,6 @@ class FacturaController extends Controller
     public function enviarEmail($id_factura)
     {
         $factura = Factura::with('detalles')->findOrFail($id_factura);
-
 
         $pdf = Pdf::loadView('factura', ['factura' => $factura]);
         $pdfContenido = $pdf->output(); //guardamos la factura en binario en la memoria del servidor

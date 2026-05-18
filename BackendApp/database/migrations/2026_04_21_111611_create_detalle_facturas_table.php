@@ -19,7 +19,7 @@ return new class extends Migration
             $table->integer('cantidad_sesiones');
             $table->timestamps();
 
-            $table->foreign('id_cita')->references('id_cita')->on('citas')->onDelete('restrict');
+            $table->foreign('id_cita')->references('id_cita')->on('citas')->onDelete('cascade');
             $table->foreign('id_factura')->references('id_factura')->on('facturas')->onDelete('cascade');
         });
     }
